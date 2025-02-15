@@ -1,0 +1,69 @@
+{
+  "name": "rigol-dho800",
+  "version": "0.0.1",
+  "description": "Node.js bindings for Rigol DHO800",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "author": "Krzysztof Rosiński",
+  "maintainers": [
+    {
+      "name": "Krzysztof Rosiński",
+      "email": "rosek86@gmail.com",
+      "url": "https://github.com/rosek86"
+    }
+  ],
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "start": "node examples/plot.ts",
+    "prebuild": "rm -fr lib",
+    "build": "tsc -p tsconfig.json",
+    "lint": "eslint src",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rosek86/rigol-dho800"
+  },
+  "bugs": {
+    "url": "https://github.com/rosek86/rigol-dho800/issues"
+  },
+  "homepage": "https://github.com/rosek86/rigol-dho800#readme",
+  "keywords": [
+    "Rigol",
+    "DHO800",
+    "Oscilloscope",
+    "VISA",
+    "NI-VISA",
+    "Data Acquisition",
+    "Waveform Capture",
+    "Measurement Automation"
+  ],
+  "os": [
+    "darwin",
+    "linux",
+    "win32"
+  ],
+  "files": [
+    "lib"
+  ],
+  "devDependencies": {
+    "canvas": "^3.1.0",
+    "chart.js": "^4.4.7",
+    "@eslint/js": "^9.20.0",
+    "@trivago/prettier-plugin-sort-imports": "^5.2.2",
+    "@types/node": "^22.13.4",
+    "eslint": "^9.20.1",
+    "globals": "^15.15.0",
+    "prettier": "^3.5.1",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.0"
+  },
+  "dependencies": {
+    "ni-visa": "^0.0.2"
+  }
+}
