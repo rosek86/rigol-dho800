@@ -21,6 +21,7 @@
     "start": "node examples/plot.ts",
     "prebuild": "rm -fr lib",
     "build": "tsc -p tsconfig.json",
+    "postbuild": "rm -f lib/tsconfig.tsbuildinfo",
     "lint": "eslint src",
     "format": "prettier --write .",
     "format:check": "prettier --check ."

@@ -1,2 +1,4 @@
 /node_modules
 /lib
+/package
+/rigol-dho800-*.tgz
