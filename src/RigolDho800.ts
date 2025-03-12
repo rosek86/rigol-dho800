@@ -1,6 +1,6 @@
 import assert from 'node:assert';
 
-import { VisaInstrument } from 'ni-visa';
+import type { VisaInstrument } from 'ni-visa';
 
 export interface RigolDho800Timebase {
   scale: number;
