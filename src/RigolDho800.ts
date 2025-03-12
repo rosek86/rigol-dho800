@@ -34,6 +34,11 @@ export interface RigolDho800WaveformParameters {
   yreference: number;
 }
 
+export interface RigolDho800Waveform {
+  samples: number[];
+  params: RigolDho800WaveformParameters;
+}
+
 export class RigolDho800 {
   private instr: VisaInstrument;
 
@@ -114,7 +119,7 @@ export class RigolDho800 {
     return true;
   }
 
-  public readWaveform(ch: number) {
+  public readWaveform(ch: number): RigolDho800Waveform {
     this.instr.write(`:WAV:SOUR CHAN${ch}`);
     this.instr.write(':WAV:MODE RAW');
     this.instr.write(':WAV:FORM WORD');
@@ -134,7 +139,7 @@ export class RigolDho800 {
 
     // The next `lengthSize` bytes should be the length of the data in bytes
     const length = parseInt(result.toString('ascii', 2, 2 + lengthSize));
-    const data = result.slice(2 + lengthSize, 2 + lengthSize + length);
+    const data = result.subarray(2 + lengthSize, 2 + lengthSize + length);
     assert(data.length === length, new Error('Invalid waveform data'));
 
     // Parse the data as 16-bit little-endian samples
