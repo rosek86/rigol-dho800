@@ -2,6 +2,11 @@ import assert from 'node:assert';
 
 import { VisaInstrument } from 'ni-visa';
 
+export interface RigolDho800Timebase {
+  scale: number;
+  offset: number;
+}
+
 export interface RigolDho800Channel {
   probeRatio: number;
   verticalScale: number;
@@ -42,16 +47,31 @@ export class RigolDho800 {
     this.wait();
   }
 
-  public configureTimebase(scale: number = 0.001) {
-    this.instr.write(`:TIM:SCAL ${scale}`);
+  public configureTimebase(config: Partial<RigolDho800Timebase> = {}) {
+    if (config.scale !== undefined) {
+      this.instr.write(`:TIM:SCAL ${config.scale}`);
+    }
+    if (config.offset !== undefined) {
+      this.instr.write(`:TIM:OFFS ${config.offset}`);
+    }
   }
 
   public configureChannel(ch: number, config: Partial<RigolDho800Channel> = {}) {
-    this.instr.write(`:CHAN${ch}:PROB ${config.probeRatio ?? 1}`);
-    this.instr.write(`:CHAN${ch}:SCAL ${config.verticalScale ?? 1}`);
-    this.instr.write(`:CHAN${ch}:OFFS ${config.offset ?? 0}`);
-    this.instr.write(`:CHAN${ch}:COUP ${config.coupling ?? 'DC'}`);
-    this.instr.write(`:CHAN${ch}:DISP ${(config.display ?? true) ? 'ON' : 'OFF'}`);
+    if (config.display !== undefined) {
+      this.instr.write(`:CHAN${ch}:DISP ${config.display ? 'ON' : 'OFF'}`);
+    }
+    if (config.probeRatio !== undefined) {
+      this.instr.write(`:CHAN${ch}:PROB ${config.probeRatio}`);
+    }
+    if (config.verticalScale !== undefined) {
+      this.instr.write(`:CHAN${ch}:SCAL ${config.verticalScale}`);
+    }
+    if (config.offset !== undefined) {
+      this.instr.write(`:CHAN${ch}:OFFS ${config.offset}`);
+    }
+    if (config.coupling !== undefined) {
+      this.instr.write(`:CHAN${ch}:COUP ${config.coupling}`);
+    }
   }
 
   public configureMemoryDepth(depth: string) {

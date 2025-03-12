@@ -53,16 +53,15 @@
     "lib"
   ],
   "devDependencies": {
-    "canvas": "^3.1.0",
-    "chart.js": "^4.4.7",
-    "@eslint/js": "^9.20.0",
+    "@eslint/js": "^9.22.0",
     "@trivago/prettier-plugin-sort-imports": "^5.2.2",
-    "@types/node": "^22.13.4",
-    "eslint": "^9.20.1",
-    "globals": "^15.15.0",
-    "prettier": "^3.5.1",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.24.0"
+    "@types/node": "^22.13.10",
+    "canvas": "^3.1.0",
+    "chart.js": "^4.4.8",
+    "eslint": "^9.22.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
   },
   "dependencies": {
     "ni-visa": "^0.0.2"
