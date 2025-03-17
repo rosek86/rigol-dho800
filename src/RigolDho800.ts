@@ -34,6 +34,11 @@ export interface RigolDho800WaveformParameters {
   yreference: number;
 }
 
+export interface RigolDho800WaveformOptions {
+  convertToVoltage: boolean;
+  bufferSize: number;
+}
+
 export interface RigolDho800Waveform {
   samples: number[];
   params: RigolDho800WaveformParameters;
@@ -119,13 +124,16 @@ export class RigolDho800 {
     return true;
   }
 
-  public readWaveform(ch: number): RigolDho800Waveform {
+  public readWaveform(ch: number, opts?: Partial<RigolDho800WaveformOptions>): RigolDho800Waveform {
+    const convertToVoltage = opts?.convertToVoltage ?? true;
+    const bufferSize = opts?.bufferSize ?? 2 * 1024 * 1024;
+
     this.instr.write(`:WAV:SOUR CHAN${ch}`);
     this.instr.write(':WAV:MODE RAW');
     this.instr.write(':WAV:FORM WORD');
     this.wait();
 
-    const result = this.instr.queryBinary(':WAV:DATA?', 2 * 1024 * 1024);
+    const result = this.instr.queryBinary(':WAV:DATA?', bufferSize);
     const params = this.queryWaveformParameters();
 
     assert(result.length > 2, new Error('Invalid waveform data'));
@@ -146,7 +154,13 @@ export class RigolDho800 {
     const samples: number[] = [];
     for (let i = 0; i < data.length; i += 2) {
       const sample = data.readUInt16LE(i);
-      const voltage = (sample - params.yreference) * params.yincrement + params.yorigin;
+
+      if (!convertToVoltage) {
+        samples.push(sample);
+        continue;
+      }
+
+      const voltage = (sample - params.yreference - params.yorigin) * params.yincrement;
       samples.push(voltage);
     }
 
